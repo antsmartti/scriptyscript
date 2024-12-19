@@ -3,9 +3,13 @@
 #UBUNTU
 install_ubuntu() {
     echo "Detected Ubuntu. Installing dependencies..."
+    sudo apt update
+    sudo apt install apt-transport-https ca-certificates curl software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     sudo apt-get remove docker docker-engine docker.io || true
     sudo apt-get update
-    sudo apt install curl python3-pip docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+    sudo apt install curl docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
     sudo systemctl enable docker
     echo "Installation completed for Ubuntu."
 }
