@@ -1,14 +1,44 @@
 #!/bin/sh
 
 #UBUNTU
+#!/bin/sh
+
+# Add Docker's official GPG key and repository for Ubuntu
 install_ubuntu() {
-    echo "Detected Ubuntu. Installing dependencies..."
-sudo apt update
-sudo apt-get update  
-sudo apt-get install docker.io docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
-sudo systemctl enable docker
-echo "Installation completed for Ubuntu."
+    echo "Detected Ubuntu. Installing Docker and dependencies..."
+
+    # Remove old versions of Docker
+    sudo apt-get remove -y docker docker-engine docker.io containerd runc
+
+    # Update package list and install prerequisites
+    sudo apt-get update
+    sudo apt-get install -y \
+        ca-certificates \
+        curl \
+        gnupg
+
+    # Add Docker's GPG key
+    sudo mkdir -m 0755 -p /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+    # Set up the Docker repository
+    echo \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+    # Update package list again
+    sudo apt-get update
+
+    # Install Docker packages
+    sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+    # Enable Docker service
+    sudo systemctl enable docker
+    sudo systemctl start docker
+
+    echo "Docker installation completed on Ubuntu."
 }
+
 
 # ALPINE
 install_alpine() {
