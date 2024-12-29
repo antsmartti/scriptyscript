@@ -1,8 +1,7 @@
-version: '3'
-
 services:
   wordpress:
     image: wordpress:latest
+    restart: unless-stopped
     ports:
       - "80:80"
     environment:
@@ -11,25 +10,27 @@ services:
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
     volumes:
-      - wordpress-data:/var/www/html
+      - ./wordpress-data:/var/www/html
     depends_on:
       - mysql
       - redis
   
   mysql:
     image: mysql:5.7
+    restart: unless-stopped
     environment:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - mysql-data:/var/lib/mysql
+      - ./mysql-data:/var/lib/mysql
 
   redis:
     image: redis:latest
+    restart: unless-stopped
     volumes:
-      - redis-data:/data  
+      - ./redis-data:/data  
   
   cloudflared:
     image: cloudflare/cloudflared
