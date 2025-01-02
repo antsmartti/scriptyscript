@@ -38,7 +38,7 @@ services:
     restart: unless-stopped
     command: tunnel run
     environment:
-      - TUNNEL_TOKEN=eybxxxxxxxxxx
+      - TUNNEL_TOKEN=${CF_TUNNEL}
 
 volumes:
   wordpress-data:
