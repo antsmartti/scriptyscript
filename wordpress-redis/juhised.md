@@ -1,10 +1,15 @@
-# Uuenda .env faili
+# Uuenda .env ja php.ini faile
 ```
 nano .env
 ```
 
 Kõige olulisem on siia kleepida enda Cloudflare token. Paroolide muutmine on valikuline, kuid **rangelt soovituslik**. 
 
+```
+nano php.ini
+```
+
+Siin saad muuta oma ülelaetavate failide suurust ja postituste suurust. Tavaliselt on selleks 2MB, kuid sellega suurendame 64MB peale. 
 
 # Lisa need read faili *wordpress-data/wp-config.php*, et Redis hakkaks tööle:
 ```
