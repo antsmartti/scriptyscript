@@ -2,41 +2,58 @@ services:
   wordpress:
     image: wordpress:latest
     restart: unless-stopped
-    ports:
-      - "80:80"
     environment:
       WORDPRESS_DB_HOST: mysql
       WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
       WORDPRESS_DB_NAME: wordpress
-      WORDPRESS_CONFIG_EXTRA: |
-        define('WP_CACHE_KEY_SALT', '${REDIS_SALT}');
-        define('WP_REDIS_HOST', 'redis');
-        define('WP_REDIS_PORT', 6379);
-        define('WP_CACHE', true);
     volumes:
-      - ./wordpress-data:/var/www/html
+      - wordpress-data:/var/www/html
     depends_on:
       - mysql
       - redis
-  
+    networks:
+      - internal
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
   mysql:
-    image: mysql:8.0
+    image: mysql:8.0.36
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     volumes:
-      - ./mysql-data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
+    networks:
+      - internal
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
 
   redis:
-    image: redis:latest
+    image: redis:7.2-alpine
     restart: unless-stopped
     volumes:
-      - ./redis-data:/data  
-  
+      - redis-data:/data
+    networks:
+      - internal
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 128M
+
   cloudflared:
     image: cloudflare/cloudflared
     container_name: cloudflare-tunnel
@@ -44,8 +61,14 @@ services:
     command: tunnel run
     environment:
       - TUNNEL_TOKEN=${CLOUDFLARE_TOKEN}
+    networks:
+      - internal
 
 volumes:
   wordpress-data:
   mysql-data:
   redis-data:
+
+networks:
+  internal:
+    driver: bridge
