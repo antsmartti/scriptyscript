@@ -57,18 +57,17 @@ validate_token() {
     fi
 }
 
-
 # Prompt the user for the Cloudflare token
 for ((attempt=1; attempt<=MAX_ATTEMPTS; attempt++)); do
     echo -e "${BLUE}Please enter your Cloudflare Tunnel token (Attempt $attempt of $MAX_ATTEMPTS):${NC}"
     read -r token </dev/tty
 
-    # Trim whitespace (if any)
-token=$(echo "$token" | tr -d '\r\n' | xargs)
-
+    token=$(echo "$token" | tr -d '\r\n' | xargs)
 
     # Debug: Show the token entered
-    echo -e "${BLUE}DEBUG: Token entered:${NC} '$token'"
+    echo -e "${BLUE}DEBUG: Token length: $(echo -n "$token" | wc -c)${NC}"
+    echo -e "${BLUE}DEBUG: Visible token:${NC} '$token'"
+
 
     # Validate the token
     if validate_token "$token"; then
