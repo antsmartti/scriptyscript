@@ -49,13 +49,14 @@ MAX_ATTEMPTS=3
 # Function to validate the Cloudflare token
 validate_token() {
     local token=$1
-    # Tokens are alphanumeric, with possible hyphens (-) and underscores (_), and typically at least 100 characters long.
-    if [[ "$token" =~ ^[a-zA-Z0-9\-\_]{100,}$ ]]; then
+    # Ensure token is at least 100 characters long and contains only valid characters
+    if [[ $(echo -n "$token" | wc -c) -ge 100 ]] && [[ "$token" =~ ^[a-zA-Z0-9\-_]+$ ]]; then
         return 0  # Valid token
     else
         return 1  # Invalid token
     fi
 }
+
 
 # Prompt the user for the Cloudflare token
 for ((attempt=1; attempt<=MAX_ATTEMPTS; attempt++)); do
@@ -63,7 +64,8 @@ for ((attempt=1; attempt<=MAX_ATTEMPTS; attempt++)); do
     read -r token </dev/tty
 
     # Trim whitespace (if any)
-    token=$(echo "$token" | xargs)
+token=$(echo "$token" | tr -d '\r\n' | xargs)
+
 
     # Debug: Show the token entered
     echo -e "${BLUE}DEBUG: Token entered:${NC} '$token'"
