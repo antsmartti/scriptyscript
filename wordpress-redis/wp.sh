@@ -46,21 +46,27 @@ echo "Generated random salt for Redis!"
 # Maximum number of attempts
 MAX_ATTEMPTS=3
 
-# Function to validate the token
+# Function to validate the Cloudflare token
 validate_token() {
     local token=$1
     # Tokens are alphanumeric, with possible hyphens (-) and underscores (_), and typically at least 100 characters long.
-    if [[ $token =~ ^[a-zA-Z0-9\-\_]{100,}$ ]]; then
+    if [[ "$token" =~ ^[a-zA-Z0-9\-\_]{100,}$ ]]; then
         return 0  # Valid token
     else
         return 1  # Invalid token
     fi
 }
 
-# Prompt the user for the token
+# Prompt the user for the Cloudflare token
 for ((attempt=1; attempt<=MAX_ATTEMPTS; attempt++)); do
     echo -e "${BLUE}Please enter your Cloudflare Tunnel token (Attempt $attempt of $MAX_ATTEMPTS):${NC}"
     read -r token
+
+    # Trim whitespace (if any)
+    token=$(echo "$token" | xargs)
+
+    # Debug: Show the token entered
+    echo -e "${BLUE}DEBUG: Token entered:${NC} '$token'"
 
     # Validate the token
     if validate_token "$token"; then
@@ -73,7 +79,6 @@ for ((attempt=1; attempt<=MAX_ATTEMPTS; attempt++)); do
             exit 1
         fi
     fi
-done
 
 # Proceed with the rest of the script
 echo -e "${GREEN}Proceeding with the valid token...${NC}"
