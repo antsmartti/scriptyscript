@@ -79,6 +79,7 @@ for ((attempt=1; attempt<=MAX_ATTEMPTS; attempt++)); do
             exit 1
         fi
     fi
+done
 
 # Proceed with the rest of the script
 echo -e "${GREEN}Proceeding with the valid token...${NC}"
