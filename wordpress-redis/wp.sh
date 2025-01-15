@@ -46,28 +46,36 @@ echo "Generated random salt for Redis!"
 # Maximum number of attempts
 MAX_ATTEMPTS=3
 
-# Function to validate the Cloudflare token
 validate_token() {
     local token=$1
-    # Ensure token is at least 100 characters long and contains only valid characters
-    if [[ $(echo -n "$token" | wc -c) -ge 100 ]] && [[ "$token" =~ ^[a-zA-Z0-9\-_]+$ ]]; then
-        return 0  # Valid token
-    else
+
+    # Check token length (minimum 100 characters)
+    if [[ $(echo -n "$token" | wc -c) -lt 100 ]]; then
+        echo -e "${RED}DEBUG: Token too short.${NC}"
         return 1  # Invalid token
     fi
+
+    # Check for invalid characters (non-printable or unexpected)
+    if ! echo "$token" | grep -qE '^[a-zA-Z0-9\-_]+$'; then
+        echo -e "${RED}DEBUG: Token contains invalid characters.${NC}"
+        return 1  # Invalid token
+    fi
+
+    return 0  # Valid token
 }
+
 
 # Prompt the user for the Cloudflare token
 for ((attempt=1; attempt<=MAX_ATTEMPTS; attempt++)); do
     echo -e "${BLUE}Please enter your Cloudflare Tunnel token (Attempt $attempt of $MAX_ATTEMPTS):${NC}"
     read -r token </dev/tty
 
+    # Trim whitespace and normalize the token
     token=$(echo "$token" | tr -d '\r\n' | xargs)
 
-    # Debug: Show the token entered
+    # Debugging: Show token info
     echo -e "${BLUE}DEBUG: Token length: $(echo -n "$token" | wc -c)${NC}"
-    echo -e "${BLUE}DEBUG: Visible token:${NC} '$token'"
-
+    echo -e "${BLUE}DEBUG: Visible token:${NC} '$(echo "$token" | cat -v)'"
 
     # Validate the token
     if validate_token "$token"; then
@@ -81,6 +89,7 @@ for ((attempt=1; attempt<=MAX_ATTEMPTS; attempt++)); do
         fi
     fi
 done
+
 
 # Proceed with the rest of the script
 echo -e "${GREEN}Proceeding with the valid token...${NC}"
