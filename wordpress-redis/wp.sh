@@ -48,9 +48,9 @@ echo -e "${BLUE}Please enter your Cloudflare Tunnel token:${NC}"
 read -r token
 
 # Validate token format (basic check)
-if [[ ! $token =~ ^[a-zA-Z0-9\-\_]{10,}$ ]]; then
-   echo -e "${RED}Invalid token format. Please check your token and try again.${NC}"
-   exit 1
+if [[ ! $token =~ ^[a-zA-Z0-9\-\_]{100,}$ ]]; then
+    echo -e "${RED}Invalid token format. Please check your token and try again.${NC}"
+    exit 1
 fi
 
 # Create .env file with the token
