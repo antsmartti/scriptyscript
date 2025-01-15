@@ -42,6 +42,7 @@ wget -q https://raw.githubusercontent.com/antsmartti/scriptyscript/main/wordpres
 
 # Generate a random salt
 REDIS_SALT=$(openssl rand -hex 12)
+echo "Generated random salt for Redis!"
 
 # Prompt for Cloudflare token
 echo -e "${BLUE}Please enter your Cloudflare Tunnel token:${NC}"
@@ -102,9 +103,3 @@ echo ""
 echo -e "${BLUE}To stop the containers:${NC} docker-compose down"
 echo -e "${BLUE}To view logs:${NC} docker-compose logs -f"
 echo -e "${BLUE}To restart:${NC} docker-compose restart"
-
-# Print final Redis info
-echo -e "\n${BLUE}Redis configuration:${NC}"
-echo "Host: redis"
-echo "Port: 6379"
-echo "Salt: $REDIS_SALT"
