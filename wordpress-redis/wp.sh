@@ -43,15 +43,41 @@ wget -q https://raw.githubusercontent.com/antsmartti/scriptyscript/main/wordpres
 REDIS_SALT=$(openssl rand -hex 12)
 echo "Generated random salt for Redis!"
 
-# Prompt for Cloudflare token
-echo -e "${BLUE}Please enter your Cloudflare Tunnel token:${NC}"
-read -r token
+# Maximum number of attempts
+MAX_ATTEMPTS=3
 
-# Validate token format (basic check)
-if [[ ! $token =~ ^[a-zA-Z0-9\-\_]{100,}$ ]]; then
-    echo -e "${RED}Invalid token format. Please check your token and try again.${NC}"
-    exit 1
-fi
+# Function to validate the token
+validate_token() {
+    local token=$1
+    # Tokens are alphanumeric, with possible hyphens (-) and underscores (_), and typically at least 100 characters long.
+    if [[ $token =~ ^[a-zA-Z0-9\-\_]{100,}$ ]]; then
+        return 0  # Valid token
+    else
+        return 1  # Invalid token
+    fi
+}
+
+# Prompt the user for the token
+for ((attempt=1; attempt<=MAX_ATTEMPTS; attempt++)); do
+    echo -e "${BLUE}Please enter your Cloudflare Tunnel token (Attempt $attempt of $MAX_ATTEMPTS):${NC}"
+    read -r token
+
+    # Validate the token
+    if validate_token "$token"; then
+        echo -e "${GREEN}Token is valid.${NC}"
+        break
+    else
+        echo -e "${RED}Invalid token format. Please check your token and try again.${NC}"
+        if [[ $attempt -eq $MAX_ATTEMPTS ]]; then
+            echo -e "${RED}Maximum attempts reached. Exiting.${NC}"
+            exit 1
+        fi
+    fi
+done
+
+# Proceed with the rest of the script
+echo -e "${GREEN}Proceeding with the valid token...${NC}"
+# Add your code here to use the token (e.g., export it, pass it to a command, etc.)
 
 # Create .env file with the token
 echo "CLOUDFLARE_TOKEN=$token" > .env
