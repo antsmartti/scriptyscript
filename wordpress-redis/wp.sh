@@ -2,7 +2,7 @@
 
 CURRENT_DATE=$(date '+%d%m%Y-%H%M')
 FOLDER_NAME=$(echo "$CURRENT_DATE" | sed 's#/#-#g')
-DEST_DIR="/usr/wordpress-$FOLDER_NAME"
+DEST_DIR="/wordpress-$FOLDER_NAME"
 
 # Navigate to the newly created directory
 cd "$DEST_DIR" || { echo "Failed to navigate to $DEST_DIR"; exit 1; }
