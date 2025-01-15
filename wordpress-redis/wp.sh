@@ -28,7 +28,7 @@ if ! command docker compose version &> /dev/null; then
 fi
 
 # Create directory and cd into it
-mkdir -p "$DEST_DIR" && cd -p "$DEST_DIR"
+mkdir -p "$DEST_DIR" && cd "$DEST_DIR"
 
 # Download files from GitHub
 echo -e "${BLUE}Downloading configuration files...${NC}"
