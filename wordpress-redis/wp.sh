@@ -50,7 +50,7 @@ randhex() {
 # Generate random passwords
 randhex REDIS_SALT
 randhex DB_ROOT_PASSWORD
-randhex SOME_OTHER_PASSWORD
+randhex DB_PASSWORD
 
 # Maximum number of attempts
 MAX_ATTEMPTS=3
