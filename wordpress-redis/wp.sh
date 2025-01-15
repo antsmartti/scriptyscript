@@ -25,7 +25,7 @@ mkdir -p wordpress && cd wordpress
 # Download files from GitHub
 echo -e "${BLUE}Downloading configuration files...${NC}"
 wget -q https://raw.githubusercontent.com/antsmartti/scriptyscript/main/wordpress-redis/docker-compose.yaml || {
-   echo -e "${RED}Failed to download docker-compose.yml${NC}"
+   echo -e "${RED}Failed to download docker-compose.yaml${NC}"
    exit 1
 }
 wget -q https://raw.githubusercontent.com/antsmartti/scriptyscript/main/wordpress-redis/php.ini || {
