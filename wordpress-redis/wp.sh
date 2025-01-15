@@ -1,5 +1,13 @@
 #!/bin/bash
 
+CURRENT_DATE=$(date '+%d/%m/%Y-%H:%M')
+FOLDER_NAME=$(echo "$CURRENT_DATE" | sed 's#/#-#g')
+DEST_DIR="/usr/wordpress-$FOLDER_NAME"
+
+
+# Navigate to the newly created directory
+cd "$DEST_DIR" || { echo "Failed to navigate to $DEST_DIR"; exit 1; }
+
 # Set colors for pretty output
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
@@ -20,7 +28,7 @@ if ! command docker compose version &> /dev/null; then
 fi
 
 # Create directory and cd into it
-mkdir -p wordpress && cd wordpress
+mkdir -p "$DEST_DIR" && cd -p "$DEST_DIR"
 
 # Download files from GitHub
 echo -e "${BLUE}Downloading configuration files...${NC}"
