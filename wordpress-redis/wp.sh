@@ -74,8 +74,8 @@ for ((attempt=1; attempt<=MAX_ATTEMPTS; attempt++)); do
     token=$(echo "$token" | tr -d '\r\n' | xargs)
 
     # Debugging: Show token info
-    echo -e "${BLUE}DEBUG: Token length: $(echo -n "$token" | wc -c)${NC}"
-    echo -e "${BLUE}DEBUG: Visible token:${NC} '$(echo "$token" | cat -v)'"
+    #echo -e "${BLUE}DEBUG: Token length: $(echo -n "$token" | wc -c)${NC}"
+    #echo -e "${BLUE}DEBUG: Visible token:${NC} '$(echo "$token" | cat -v)'"
 
     # Validate the token
     if validate_token "$token"; then
