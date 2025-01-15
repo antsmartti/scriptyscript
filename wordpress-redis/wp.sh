@@ -100,14 +100,14 @@ echo "CLOUDFLARE_TOKEN=$token" > .env
 
 # Start containers
 echo -e "${BLUE}Starting containers...${NC}"
-docker-compose up -d
+docker compose up -d
 
 # Wait for WordPress to create wp-config.php
 echo -e "${BLUE}Waiting for WordPress to initialize...${NC}"
 COUNTER=0
 MAX_TRIES=30
 while [ ! -f wordpress-data/wp-config.php ]; do
-   sleep 2
+   sleep 3
    COUNTER=$((COUNTER + 1))
    if [ $COUNTER -eq $MAX_TRIES ]; then
        echo -e "${RED}Timeout waiting for WordPress initialization${NC}"
