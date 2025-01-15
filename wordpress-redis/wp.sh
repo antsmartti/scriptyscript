@@ -39,9 +39,18 @@ wget -q https://raw.githubusercontent.com/antsmartti/scriptyscript/main/wordpres
    exit 1
 }
 
-# Generate a random salt
-REDIS_SALT=$(openssl rand -hex 12)
-echo "Generated random salt for Redis!"
+# Function to generate random hex strings and assign them to variables
+randhex() {
+    local var_name=$1 # First argument is the variable name
+    local rand_value=$(openssl rand -hex 12) # Generate 12-byte random hex string
+    export $var_name=$rand_value # Export the variable to the environment
+    echo "$var_name=$rand_value" >> .env # Append to .env file
+}
+
+# Generate random passwords
+randhex REDIS_SALT
+randhex DB_ROOT_PASSWORD
+randhex SOME_OTHER_PASSWORD
 
 # Maximum number of attempts
 MAX_ATTEMPTS=3
@@ -93,10 +102,8 @@ done
 
 # Proceed with the rest of the script
 echo -e "${GREEN}Proceeding with the valid token...${NC}"
-# Add your code here to use the token (e.g., export it, pass it to a command, etc.)
 
-# Create .env file with the token
-echo "CLOUDFLARE_TOKEN=$token" > .env
+echo "CLOUDFLARE_TOKEN=$token" >> .env
 
 # Start containers
 echo -e "${BLUE}Starting containers...${NC}"
