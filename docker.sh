@@ -1,11 +1,15 @@
-#!/bin/sh
-
 #UBUNTU
 #!/bin/sh
 
+# Set colors for pretty output
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
 # Add Docker's official GPG key and repository for Ubuntu
 install_ubuntu() {
-    echo "Detected Ubuntu. Installing Docker and dependencies..."
+    echo -e "${GREEN}Detected Ubuntu. Installing Docker and dependencies...${NC}"
 
     # Remove old versions of Docker
     sudo apt-get remove -y docker docker-engine docker.io containerd runc
