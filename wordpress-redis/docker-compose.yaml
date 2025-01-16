@@ -14,6 +14,7 @@ services:
         define('WP_CACHE', true);
     volumes:
       - ./wordpress-data:/var/www/html
+      - ./php.ini:/usr/local/etc/php/conf.d/custom.ini
     depends_on:
       - mysql
       - redis
