@@ -61,7 +61,7 @@ services:
 
   cloudflared:
     image: cloudflare/cloudflared
-    container_name: cloudflare-tunnel
+    #container_name: cloudflare-tunnel
     restart: unless-stopped
     command: tunnel run
     environment:
