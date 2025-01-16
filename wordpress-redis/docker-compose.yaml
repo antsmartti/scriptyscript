@@ -13,7 +13,7 @@ services:
         define('WP_REDIS_PORT', 6379);
         define('WP_CACHE', true);
     volumes:
-      - wordpress-data:/var/www/html
+      - ./wordpress-data:/var/www/html
     depends_on:
       - mysql
       - redis
@@ -35,7 +35,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     volumes:
-      - mysql-data:/var/lib/mysql
+      - ./mysql-data:/var/lib/mysql
     networks:
       - internal
     deploy:
@@ -49,7 +49,7 @@ services:
     image: redis:7.2-alpine
     restart: unless-stopped
     volumes:
-      - redis-data:/data
+      - ./redis-data:/data
     networks:
       - internal
     deploy:
