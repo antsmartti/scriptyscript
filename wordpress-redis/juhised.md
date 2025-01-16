@@ -1,30 +1,8 @@
-# Uuenda .env ja php.ini faile
-```
-nano .env
-```
-
-Kõige olulisem on siia kleepida enda Cloudflare token. Paroolide muutmine on valikuline, kuid **rangelt soovituslik**. 
+# Käivita script
 
 ```
-nano php.ini
+bash -c "$(curl -fsSL https://wp.anexos.ee)"
 ```
-
-Siin saad muuta oma ülelaetavate failide suurust ja postituste suurust. Tavaliselt on selleks 2MB, kuid sellega suurendame 64MB peale. 
-
-# Lisa need read faili *wordpress-data/wp-config.php*, et Redis hakkaks tööle:
-```
-nano wp-config.php
-```
-```
-define('WP_CACHE_KEY_SALT', 'your_unique_salt_here');  // Change this to something unique
-define('WP_REDIS_HOST', 'redis');  // Name of your Redis container in Docker
-define('WP_REDIS_PORT', 6379);     // Default Redis port
-define('WP_CACHE', true);          // Enable caching
-```
-
-## Miks?
-
-Redis taustal küll töötab, kuid Wordpress ei leia Redist üles. Esialgu otsib Wordpress teda 127.0.0.1:6379, kuid Docker'i puhul on host redis:8379.
 
 ### Näide toimivast Redisest:
 ![image](https://github.com/user-attachments/assets/2abc2b3d-3442-440b-9302-9181899ac639)
