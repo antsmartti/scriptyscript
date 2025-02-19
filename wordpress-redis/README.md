@@ -1,6 +1,6 @@
 ## Käivita script
 
-```
+```bash
 bash -c "$(curl -fsSL https://wp.anexos.ee)"
 ```
 
