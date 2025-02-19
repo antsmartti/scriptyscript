@@ -1,2 +1,2 @@
 # scriptyscript
-Scriptide kogum
+Isiklik scriptide ja docker compose failide kogum
