@@ -7,7 +7,7 @@ bash -c "$(curl -fsSL https://anexos.ee/n8n)"
 Automatsioonid kõikvõimalike protsesside jaoks. 
 <br>[Integratsioonid](https://n8n.io/integrations/) | [Templates](https://n8n.io/workflows/) | [Community Nodes](https://n8engine.com/community-nodes?sortDir=desc&sortCol=totalDownloads)
 
-#### AI + n8n = <3
+#### n8n + AI = ❤️
 Tänu AI lisamise võimalusele saab ehitada kergelt ka AI agente. Kui chatGPT API võtit ei ole, siis tasub uurida tasuta Google Gemini API võtit testimise käigus. 
 <br>[Hinnakiri ja limiidid](https://ai.google.dev/gemini-api/docs/pricing) | [Google AI Studio](https://aistudio.google.com)
 
