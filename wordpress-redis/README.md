@@ -1,7 +1,7 @@
 ## Käivita script
 
 ```bash
-bash -c "$(curl -fsSL https://wp.anexos.ee)"
+bash -c "$(curl -fsSL https://sh.anexos.ee/wp)"
 ```
 
 Andmebaaside paroolid genereeritakse automaatselt. Samuti Redise [sool](https://et.wikipedia.org/wiki/Sool_(kr%C3%BCptograafia))
