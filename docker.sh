@@ -41,6 +41,8 @@ install_ubuntu() {
     sudo systemctl start docker
 
     echo "Docker installation completed on Ubuntu."
+
+    sudo usermod -aG docker $USER && exit
 }
 
 
