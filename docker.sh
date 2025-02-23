@@ -51,7 +51,6 @@ fi
     sleep 10
     kill -9 -1
 }
-}
 
 
 # ALPINE
