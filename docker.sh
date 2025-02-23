@@ -23,8 +23,10 @@ install_ubuntu() {
 
     # Add Docker's GPG key
     sudo mkdir -m 0755 -p /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-
+    if ! curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg; then
+    echo -e "${RED}Failed to add Docker's GPG key${NC}"
+    exit 1
+fi
     # Set up the Docker repository
     echo \
       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
@@ -42,7 +44,13 @@ install_ubuntu() {
 
     echo "Docker installation completed on Ubuntu."
 
-    sudo usermod -aG docker $USER && exit
+    sudo usermod -aG docker $USER
+    echo -e "${GREEN}Added user to docker group.${NC}"
+    echo -e "${BLUE}System will logout in 10 seconds to apply changes...${NC}"
+    echo -e "${RED}Please log in with your new user afterwards!${NC}"
+    sleep 10
+    kill -9 -1
+}
 }
 
 
