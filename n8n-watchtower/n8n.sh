@@ -35,6 +35,27 @@ wget -q https://raw.githubusercontent.com/antsmartti/scriptyscript/main/n8n-watc
    exit 1
 }
 
+# Prompt the user for domain
+echo -e "${BLUE}Please enter your domain (example.com):${NC}"
+read -r domain </dev/tty
+
+# Trim whitespace and normalize the token
+domain=$(echo "$domain" | tr -d '\r\n' | xargs)
+echo "DOMAIN_NAME=$domain" >> .env
+
+# Prompt the user for subdomain
+echo -e "${BLUE}Please enter your subdomain:${NC}"
+read -r subdomain </dev/tty
+
+# Trim whitespace and normalize the token
+subdomain=$(echo "$subdomain" | tr -d '\r\n' | xargs)
+echo "SUBDOMAIN=$subdomain" >> .env
+echo ""
+echo "WEBHOOK_DOMAIN=https://$subdomain.$domain" >> .env
+echo ""
+echo "GENERIC_TIMEZONE=Europe/Tallinn" >> .env
+echo ""
+
 # Maximum number of attempts
 MAX_ATTEMPTS=3
 
