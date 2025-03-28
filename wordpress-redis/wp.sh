@@ -30,8 +30,6 @@ if ! command docker compose version &> /dev/null; then
    exit 1
 fi
 
-cd "$DEST_DIR"
-
 # Download files from GitHub
 echo -e "${BLUE}Downloading configuration files...${NC}"
 wget -q https://raw.githubusercontent.com/antsmartti/scriptyscript/main/wordpress-redis/docker-compose.yaml || {
@@ -169,6 +167,22 @@ sed -i "/Done/i $(cat redis-config.txt)" wordpress-data/wp-config.php
 # Clean up
 rm redis-config.txt
 
+echo -e "${GREEN}WordPress installed! Continuing with plugins..${NC}"
+
+echo -e "${BLUE}Waiting to install plugins...${NC}"
+COUNTER=0
+MAX_TRIES=60
+while [ ! -f wordpress-data/wp-content/plugins ]; do
+   sleep 3
+   COUNTER=$((COUNTER + 1))
+   if [ $COUNTER -eq $MAX_TRIES ]; then
+       echo -e "${RED}Timeout waiting for WordPress initialization${NC}"
+       exit 1
+   fi
+   echo -n "."
+done
+echo ""
+
 cd "$PLUGINS_DIR" || { echo "Plugins directory not found at $PLUGINS_DIR"; exit 1; }
 
 #Clone the redis plugin
@@ -182,14 +196,9 @@ chmod -R 755 "$PLUGIN_SLUG" || { echo "Failed to set permissions"; exit 1; }
 echo "Activating plugin $PLUGIN_SLUG..."
 wp plugin activate "$PLUGIN_SLUG" --path="$DEST_DIR" || { echo "Failed to activate plugin"; exit 1; }
 
-echo "Plugin successfully installed and activated."
-
-echo -e "${GREEN}Setup complete! Your WordPress installation is ready.${NC}"
-echo -e "${BLUE}Next steps:${NC}"
-echo "1. Visit your site"
-echo "2. Complete the WordPress installation"
-echo "3. Redis Object Cache plugin should already be installed and activated"
+echo "Plugins successfully installed and activated."
 echo ""
+echo -e "${GREEN}Setup complete! Your WordPress installation is ready.${NC}"
 echo -e "${BLUE}To stop the containers:${NC} docker-compose down"
 echo -e "${BLUE}To view logs:${NC} docker-compose logs -f"
 echo -e "${BLUE}To restart:${NC} docker-compose restart"
