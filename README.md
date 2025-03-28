@@ -1,6 +1,10 @@
 # scriptyscript
 Isiklik scriptide ja Docker Compose failide kogum
 
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/antsmartti/scriptyscript/refs/heads/main/docker.sh)"
+```
+
 ### Märkused
 - **Turvalisus on prioriteet!** Iga VPS (Virtual Private Server) peaks olema turvaline ja korralikult konfigureeritud. Soovitatav on kasutada tööriistu nagu [akcryptoguy/vps-harden](https://github.com/akcryptoguy/vps-harden) serveri turvalisuse parandamiseks.
 - **Kasutamine omal vastutusel:** 
