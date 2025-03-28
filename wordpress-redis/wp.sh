@@ -164,8 +164,7 @@ define('WP_CACHE', true);
 
 EOL
 
-# Insert Redis configuration before "That's all" comment
-sed -i "/That's all/i $(cat redis-config.txt)" wordpress-data/wp-config.php
+sed -i "/Done/i $(cat redis-config.txt)" wordpress-data/wp-config.php
 
 # Clean up
 rm redis-config.txt
