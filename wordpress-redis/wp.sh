@@ -3,9 +3,13 @@
 CURRENT_DATE=$(date '+%d%m%Y-%H%M')
 FOLDER_NAME=$(echo "$CURRENT_DATE" | sed 's#/#-#g')
 DEST_DIR="./wordpress-$FOLDER_NAME"
+PLUGIN_REPO="https://github.com/rhubarbgroup/redis-cache.git"
+PLUGIN_SLUG="redis-cache"
+PLUGINS_DIR="$DEST_DIR/wp-content/plugins"
 
 # Navigate to the newly created directory
-mkdir -p "$DEST_DIR" || cd "$DEST_DIR" || { echo "Failed to navigate to $DEST_DIR"; exit 1; }
+mkdir -p "$DEST_DIR"
+cd "$DEST_DIR" || { echo -e "${RED}Failed to navigate to $DEST_DIR${NC}"; exit 1; }
 
 # Set colors for pretty output
 GREEN='\033[0;32m'
@@ -39,18 +43,42 @@ wget -q https://raw.githubusercontent.com/antsmartti/scriptyscript/main/wordpres
    exit 1
 }
 
-# Function to generate random hex strings and assign them to variables
-randhex() {
-    local var_name=$1 # First argument is the variable name
-    local rand_value=$(openssl rand -hex 12) # Generate 12-byte random hex string
-    export $var_name=$rand_value # Export the variable to the environment
-    echo "$var_name=$rand_value" >> .env # Append to .env file
+# Generate random passwords or use static passwords if OpenSSL is unavailable
+USE_STATIC_PASSWORDS=false
+if ! command -v openssl &> /dev/null; then
+    echo -e "${RED}OpenSSL is not installed. Using static passwords instead.${NC}"
+    USE_STATIC_PASSWORDS=true
+fi
+
+# Password generation logic
+generate_passwords() {
+    local var_name=$1
+    if [ "$USE_STATIC_PASSWORDS" = true ]; then
+        case $var_name in
+            REDIS_SALT)
+                rand_value="randomsalt"
+                ;;
+            DB_ROOT_PASSWORD)
+                rand_value="randompassword"
+                ;;
+            DB_PASSWORD)
+                rand_value="randompassword"
+                ;;
+            *)
+                rand_value="randompassword"
+                ;;
+        esac
+    else
+        rand_value=$(openssl rand -hex 12)
+    fi
+    export $var_name=$rand_value
+    echo "$var_name=$rand_value" >> .env
 }
 
-# Generate random passwords
-randhex REDIS_SALT
-randhex DB_ROOT_PASSWORD
-randhex DB_PASSWORD
+# Call the function for necessary variables
+generate_passwords REDIS_SALT
+generate_passwords DB_ROOT_PASSWORD
+generate_passwords DB_PASSWORD
 
 # Maximum number of attempts
 MAX_ATTEMPTS=3
@@ -142,11 +170,26 @@ sed -i "/That's all/i $(cat redis-config.txt)" wordpress-data/wp-config.php
 # Clean up
 rm redis-config.txt
 
+cd "$PLUGINS_DIR" || { echo "Plugins directory not found at $PLUGINS_DIR"; exit 1; }
+
+#Clone the redis plugin
+echo "Cloning plugin from $PLUGIN_REPO..."
+git clone "$PLUGIN_REPO" || { echo "Failed to clone the plugin repository"; exit 1; }
+
+echo "Setting permissions for $PLUGIN_SLUG..."
+chmod -R 755 "$PLUGIN_SLUG" || { echo "Failed to set permissions"; exit 1; }
+
+#Activate the plugin using WP-CLI
+echo "Activating plugin $PLUGIN_SLUG..."
+wp plugin activate "$PLUGIN_SLUG" --path="$DEST_DIR" || { echo "Failed to activate plugin"; exit 1; }
+
+echo "Plugin successfully installed and activated."
+
 echo -e "${GREEN}Setup complete! Your WordPress installation is ready.${NC}"
 echo -e "${BLUE}Next steps:${NC}"
-echo "1. Visit your site through Cloudflare Tunnel"
+echo "1. Visit your site"
 echo "2. Complete the WordPress installation"
-echo "3. Install and activate Redis Object Cache plugin"
+echo "3. Redis Object Cache plugin should already be installed and activated"
 echo ""
 echo -e "${BLUE}To stop the containers:${NC} docker-compose down"
 echo -e "${BLUE}To view logs:${NC} docker-compose logs -f"
