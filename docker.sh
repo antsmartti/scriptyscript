@@ -42,7 +42,7 @@ fi
     sudo systemctl enable docker
     sudo systemctl start docker
 
-    echo "Docker installation completed on Ubuntu."
+    echo "${GREEN}Docker installation completed on Ubuntu.${NC}"
 
     sudo usermod -aG docker $USER
     echo -e "${GREEN}Added user to docker group.${NC}"
@@ -55,12 +55,12 @@ fi
 
 # ALPINE
 install_alpine() {
-    echo "Detected Alpine. Installing dependencies..."
+    echo "${BLUE}Detected Alpine. Installing dependencies...${NC}"
     apk update
     apk add curl bash nano docker docker-compose git github-cli python3 py3-pip
     rc-update add docker default
     /etc/init.d/docker start
-    echo "Installation completed for Alpine."
+    echo "${GREEN}Installation completed for Alpine.${NC}"
 }
 
 # Detect the OS
@@ -74,11 +74,11 @@ if [ -f /etc/os-release ]; then
             install_alpine
             ;;
         *)
-            echo "Unsupported operating system: $ID"
+            echo "${RED}Unsupported operating system: $ID ${NC}"
             exit 1
             ;;
     esac
 else
-    echo "Unable to detect the operating system."
+    echo "${RED}Unable to detect the operating system.${NC}"
     exit 1
 fi
