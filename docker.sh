@@ -57,7 +57,7 @@ fi
 install_alpine() {
     echo "Detected Alpine. Installing dependencies..."
     apk update
-    apk add curl nano docker docker-compose git github-cli python3 py3-pip
+    apk add curl bash nano docker docker-compose git github-cli python3 py3-pip
     rc-update add docker default
     /etc/init.d/docker start
     echo "Installation completed for Alpine."
