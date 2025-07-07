@@ -2,7 +2,7 @@
 Isiklik scriptide ja Docker Compose failide kogum
 
 ```bash
-apk add bash curl && bash -c "$(curl -fsSL https://raw.githubusercontent.com/antsmartti/scriptyscript/refs/heads/main/docker.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/antsmartti/scriptyscript/refs/heads/main/docker.sh)"
 ```
 
 ### Märkused
