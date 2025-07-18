@@ -20,15 +20,9 @@ services:
       - redis
     networks:
       - internal
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-        reservations:
-          memory: 512M
 
   mysql:
-    image: mysql:8.0.36
+    image: mysql:latest
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: wordpress
@@ -39,12 +33,6 @@ services:
       - ./mysql-data:/var/lib/mysql
     networks:
       - internal
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-        reservations:
-          memory: 512M
 
   redis:
     image: redis:7.2-alpine
@@ -53,12 +41,6 @@ services:
       - ./redis-data:/data
     networks:
       - internal
-    deploy:
-      resources:
-        limits:
-          memory: 256M
-        reservations:
-          memory: 128M
 
   cloudflared:
     image: cloudflare/cloudflared
