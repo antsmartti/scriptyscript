@@ -1,6 +1,6 @@
 # Käivita script
 ```bash
-bash -c "$(curl -fsSL https://sh.anexos.ee/n8n)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/antsmartti/scriptyscript/refs/heads/main/n8n-watchtower/n8n.sh)"
 ```
 
 ### Mida saab n8n abil teha?
