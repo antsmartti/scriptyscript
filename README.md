@@ -12,9 +12,10 @@ apk add bash curl
 ### Märkused
 - **Turvalisus on prioriteet!** Iga VPS (Virtual Private Server) peaks olema turvaline ja korralikult konfigureeritud. Soovitatav on kasutada tööriistu nagu [akcryptoguy/vps-harden](https://github.com/akcryptoguy/vps-harden) serveri turvalisuse parandamiseks.
 - **Kasutamine omal vastutusel:** 
-  - Need skriptid on loodud minu isiklikuks kasutamiseks ja jagamiseks. Kuigi olen neid testinud oma vajaduste jaoks, **ei anna ma mingeid garantiisid nende töökindluse, ohutuse ega sobivuse kohta teistele kasutajatele.**
+  - Need skriptid on loodud eelkõige minu isiklikuks kasutamiseks ja jagamiseks. Kuigi olen neid testinud oma vajaduste jaoks, **ei anna ma mingeid garantiisid nende töökindluse, ohutuse ega sobivuse kohta teistele kasutajatele.**
   - Enne kasutamist lugege kood hoolikalt läbi ja veenduge, et see vastab teie vajadustele ning turvanõuetele.
 - **Avalik skript:** Kuna see projekt on avalik, palun arvestage, et kõik selles sisalduvad andmed ja paroolid peavad olema dünaamiliselt loodud või asendatud enne kasutamist. **Ärge lisage tundlikku teavet.**
+- Mõned rakendused võivad vajada domeeni, et nad korralikult töötaks (nt n8n). Odavaim ja stabiilseim lahendus minu jaoks on olnud Cloudflare kaudu 8-numbriline .xyz domeen. 
 
 ---
 
