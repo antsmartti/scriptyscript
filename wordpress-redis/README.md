@@ -19,6 +19,9 @@ sudo usermod -aG docker $USER && exit
 ![image](https://github.com/user-attachments/assets/cd8ad303-8a3c-4072-8735-98cdfccbfdcb)
 
 ### Toimiv Redis Wordpressist nähtuna:
+
+<img width="563" height="272" alt="image" src="https://github.com/user-attachments/assets/664a915b-5513-45b8-b0eb-9984d87b42f0" />
+
 ![image](https://github.com/user-attachments/assets/fae99782-557e-4c1d-ae30-477139cd65b6)
 
 *Juhin tähelepanu, et key prefix kattub sellega, mis on .env failis REDIS_SALT*
