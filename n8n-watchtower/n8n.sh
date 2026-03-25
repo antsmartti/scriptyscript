@@ -51,7 +51,7 @@ read -r subdomain </dev/tty
 subdomain=$(echo "$subdomain" | tr -d '\r\n' | xargs)
 echo "SUBDOMAIN=$subdomain" >> .env
 echo ""
-echo "WEBHOOK_DOMAIN=https://$subdomain.$domain" >> .env
+echo "WEBHOOK_URL=https://$subdomain.$domain" >> .env
 echo ""
 echo "GENERIC_TIMEZONE=Europe/Tallinn" >> .env
 echo ""
@@ -109,7 +109,7 @@ echo "CLOUDFLARE_TOKEN=$token" >> .env
 # Start containers
 echo -e "${BLUE}Starting containers...${NC}"
 docker compose up -d
-
+echo ""
 echo -e "${GREEN}Setup complete! Your n8n installation is ready.${NC}"
 echo -e "${BLUE}Next steps:${NC}"
 echo "1. Visit your site through Cloudflare Tunnel"
