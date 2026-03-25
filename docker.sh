@@ -55,12 +55,12 @@ fi
 
 # ALPINE
 install_alpine() {
-    echo "${BLUE}Detected Alpine. Installing dependencies...${NC}"
+    echo -e "${BLUE}Detected Alpine. Installing dependencies...${NC}"
     apk update
     apk add curl bash nano docker docker-compose git github-cli python3 py3-pip
     rc-update add docker default
     /etc/init.d/docker start
-    echo "${GREEN}Installation completed for Alpine.${NC}"
+    echo -e "${GREEN}Installation completed for Alpine.${NC}"
 }
 
 # Detect the OS
