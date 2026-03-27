@@ -13,7 +13,10 @@ Non-root kasutajal puuduvad õigused. Selleks lisada need ja logida uuesti sisse
 ```
 sudo usermod -aG docker $USER && exit
 ```
-
+või Alpine OS puhul
+```
+addgroup $USER docker && exit
+```
 ## Näited
 ### Toimiv Wordpress VPSist nähtuna:
 ![image](https://github.com/user-attachments/assets/cd8ad303-8a3c-4072-8735-98cdfccbfdcb)
