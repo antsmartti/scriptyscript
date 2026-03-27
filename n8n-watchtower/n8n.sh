@@ -27,6 +27,7 @@ if ! command docker compose version &> /dev/null; then
 fi
 
 cd "$DEST_DIR"
+mkdir local-files
 
 # Download files from GitHub
 echo -e "${BLUE}Downloading configuration files...${NC}"
